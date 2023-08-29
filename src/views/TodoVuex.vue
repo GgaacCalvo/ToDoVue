@@ -4,13 +4,29 @@
 
   <hr />
 
-  <button class="active">todos</button>
-  <button class="">pendientes</button>
-  <button class="">completados</button>
+  <button
+    :class="{ active: currentTab === 'pending' }"
+    @click="currentTab = 'pending'"
+  >
+    pendientes
+  </button>
+  <button :class="{ active: currentTab === 'all' }" @click="currentTab = 'all'">
+    todos
+  </button>
+  <button
+    :class="{ active: currentTab === 'completed' }"
+    @click="currentTab = 'completed'"
+  >
+    completados
+  </button>
   <div>
     <ul>
-      <li v-for="todo in all" :key="todo.id"
-      :class="{'completed': todo.completed}">
+      <li
+        v-for="todo in getTodosByTab"
+        :key="todo.id"
+        :class="{ completed: todo.completed }"
+        @dblclick="toggleTodo(todo.id)"
+      >
         {{ todo.text }}
       </li>
     </ul>
@@ -18,17 +34,18 @@
 </template>
 
 <script>
-import { computed } from "vue";
-import { useStore } from "vuex";
+import useTodos from "@/composables/useTodos";
 
 export default {
   setup() {
-    const store = useStore();
+    const { currentTab, pending, getTodosByTab, toggleTodo } = useTodos();
 
     return {
-      pending: computed(() => store.getters["pendingTodos"]), //forma de hacer que este pendiente al cambio de este Getter en particular utilizando una propiedad computada.
-      completed: computed(() => store.getters["completedTodos"]),
-      all: computed(() => store.getters["allTodos"]), //forma de hacer que este pendiente al cambio de este Getter en particular utilizando una propiedad computada.
+      currentTab,
+      pending,
+
+      getTodosByTab,
+      toggleTodo,
     };
   },
 };
