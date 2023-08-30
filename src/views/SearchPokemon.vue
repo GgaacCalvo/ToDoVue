@@ -22,7 +22,7 @@ export default {
         const router = useRouter()
         const pokemonId = ref(1)
         const txtSearchId = ref()
-        console.log(txtSearchId.value)
+      
         
         onActivated(()=>{
             txtSearchId.value.select()

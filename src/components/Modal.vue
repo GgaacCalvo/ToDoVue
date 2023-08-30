@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  props: ['title'],
+    props: ['title'],
     emits: ['on:close'],
     setup(props, context){ 
         console.log({props, context})
